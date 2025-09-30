@@ -23,6 +23,11 @@
       max-width: 500px;
       animation: fadeIn 2s ease;
     }
+    .card img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
     h1 {
       font-size: 2.5rem;
       color: #ff4e50;
@@ -60,10 +65,14 @@
 </head>
 <body>
   <div class="card">
+    <!-- 🔹 เปลี่ยน path รูปเป็นไฟล์จริงของคุณ -->
+    <img src="img/myphoto.jpg" alt="Happy Photo">
     <h1>🎉 Happy Birthday [Name]! 🎉</h1>
     <p>ขอให้มีความสุขมากๆ ในทุกวัน<br>และขอให้ปีนี้เต็มไปด้วยสิ่งดีๆ ❤️</p>
     <button class="btn" onclick="alert('คุณคือของขวัญที่ดีที่สุด 😊')">Click Me 🎁</button>
   </div>
+
+  <!-- Confetti Effect -->
   <canvas id="confetti"></canvas>
   <script>
     const canvas = document.getElementById("confetti");
