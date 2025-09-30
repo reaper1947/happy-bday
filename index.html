@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday 🎂</title>
+  <title>Happy Birthday Hong 🎂</title>
   <style>
     body {
       margin: 0;
@@ -15,22 +16,27 @@
       text-align: center;
       overflow: hidden;
     }
+
     .card {
       background: white;
       padding: 20px;
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       max-width: 600px;
       animation: fadeIn 2s ease;
+      z-index: 1;
     }
+
     h1 {
       font-size: 2.2rem;
       color: #ff4e50;
     }
+
     p {
       font-size: 1.2rem;
       color: #333;
     }
+
     .btn {
       margin-top: 20px;
       padding: 10px 20px;
@@ -42,142 +48,269 @@
       font-size: 1rem;
       transition: 0.3s;
     }
+
     .btn:hover {
       background: #fc913a;
     }
+
     @keyframes fadeIn {
-      from {opacity: 0; transform: scale(0.8);}
-      to {opacity: 1; transform: scale(1);}
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
+
     canvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: -1;
     }
 
-    /* 🔹 Carousel */
-    .carousel {
-      position: relative;
+    /* Popup overlay */
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-height: 350px;
-      overflow: hidden;
-      border-radius: 15px;
-      margin-bottom: 20px;
-    }
-    .slides {
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
       display: flex;
-      transition: transform 0.5s ease-in-out;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      z-index: 999;
+      animation: explode 0.8s ease-out forwards;
+      overflow: hidden;
     }
-    .slide {
-      width: 100%;
-      flex-shrink: 0;
-      position: relative; /* สำคัญ: ให้ caption ซ้อนบนรูปได้ */
+
+    @keyframes explode {
+      from {
+        transform: scale(0.1);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
-    .slide img {
-      width: 100%;
-      height: 300px;       /* 🔹 Fix ความสูง */
-      object-fit: cover;   /* หรือเปลี่ยนเป็น contain ถ้าอยากให้ภาพไม่โดนตัด */
-      border-radius: 15px;
-    }
-    .caption {
+
+    .popup img {
       position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.6);
-      color: white;
-      padding: 5px 15px;
-      border-radius: 10px;
-      font-size: 1rem;
-      z-index: 5;  /* 🔹 บังคับให้ caption อยู่เหนือรูป */
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      animation: bounceIn 1s ease, floatMove 6s ease-in-out infinite alternate;
+      will-change: transform;
     }
-    .nav-btn {
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.3);
+        opacity: 0;
+      }
+
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+
+      70% {
+        transform: scale(0.9);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes floatMove {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      25% {
+        transform: translate(15px, -10px) scale(1.05);
+      }
+
+      50% {
+        transform: translate(-10px, 20px) scale(0.95);
+      }
+
+      75% {
+        transform: translate(10px, -15px) scale(1.02);
+      }
+
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+    }
+
+    .close-btn {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
+      top: 20px;
+      right: 30px;
+      background: #ff4e50;
       color: white;
       border: none;
-      font-size: 2rem;
-      padding: 5px 10px;
-      cursor: pointer;
+      font-size: 1.5rem;
+      padding: 8px 15px;
       border-radius: 50%;
-      z-index: 6;
+      cursor: pointer;
+      z-index: 1000;
     }
-    .prev { left: 10px; }
-    .next { right: 10px; }
+
+    .close-btn:hover {
+      background: #fc913a;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      color: red;
+      font-size: 2rem;
+      animation: floatUp 3s ease-in forwards;
+      z-index: 1001;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+
+      to {
+        transform: translateY(-600px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .love-text {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      animation: fadeIn 2s ease;
+      z-index: 1002;
+    }
   </style>
 </head>
+
 <body>
   <div class="card">
-    <!-- 🔹 Image Carousel -->
-    <div class="carousel">
-      <div class="slides" id="slides">
-        <div class="slide">
-          <img src="img/photo1.jpg" alt="Photo 1">
-          <div class="caption">📸 วันดีๆ ที่เรายิ้มด้วยกัน</div>
-        </div>
-        <div class="slide">
-          <img src="img/photo2.jpg" alt="Photo 2">
-          <div class="caption">🌟 ความทรงจำที่พิเศษสุด</div>
-        </div>
-        <div class="slide">
-          <img src="img/photo3.jpg" alt="Photo 3">
-          <div class="caption">💖 อยากให้วันนี้มีแต่ความสุข</div>
-        </div>
-      </div>
-      <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
-      <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
-    </div>
-
-    <h1>🎉 Happy Birthday [Name]! 🎉</h1>
-    <p>ขอให้มีความสุขมากๆ ในทุกวัน<br>และขอให้ปีนี้เต็มไปด้วยสิ่งดีๆ ❤️</p>
-    <button class="btn" onclick="alert('คุณคือของขวัญที่ดีที่สุด 😊')">Click Me 🎁</button>
+    <h1>🎉 Happy Birthday To Hong! 🎉</h1>
+    <p>
+      สุขสันต์วันเกิดนะพี่หงส์ ❤️<br>
+      ขอให้ปีนี้เป็นปีที่เต็มไปด้วยรอยยิ้ม ความสุข และความรัก<br>
+      ไม่ว่าเมื่อไรเค้าจะอยู่เคียงข้างพี่หงส์เสมอนะ 💕
+    </p>
+    <button class="btn" onclick="showSurprise()">Click Me 🎁</button>
   </div>
 
-  <!-- 🔹 Confetti Effect -->
+  <!-- Confetti -->
   <canvas id="confetti"></canvas>
 
+  <!-- Background Music -->
+  <audio id="bg-music" loop>
+    <source src="music/happy-birthday.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
-    /* Carousel JS */
-    let index = 0;
-    const slides = document.getElementById("slides");
-    const total = slides.children.length;
+    function showSurprise() {
+      const popup = document.createElement("div");
+      popup.className = "popup";
 
-    function showSlide(i) {
-      index = (i + total) % total;
-      slides.style.transform = `translateX(${-index * 100}%)`;
+      // ปุ่มปิด popup
+      const closeBtn = document.createElement("button");
+      closeBtn.className = "close-btn";
+      closeBtn.innerText = "✖";
+      closeBtn.onclick = () => popup.remove();
+      popup.appendChild(closeBtn);
+
+      // container สำหรับรูป
+      const imgContainer = document.createElement("div");
+      popup.appendChild(imgContainer);
+
+      // รายการรูปทั้งหมด
+      const totalImages = 48;
+      let currentBatch = 0;
+      const batchSize = 10;
+
+      function showBatch() {
+        imgContainer.innerHTML = ""; // เคลียร์ batch เก่า
+        for (let i = 0; i < batchSize; i++) {
+          const index = (currentBatch * batchSize + i) % totalImages + 1;
+          const img = document.createElement("img");
+          img.src = `img/photo${index}.jpg`;
+          img.style.top = Math.random() * 70 + 10 + "%";
+          img.style.left = Math.random() * 70 + 10 + "%";
+          img.style.animationDuration = (6 + Math.random() * 6) + "s";
+          img.style.animationDelay = (Math.random() * 3) + "s";
+          imgContainer.appendChild(img);
+        }
+        currentBatch++;
+      }
+
+      // สลับ batch ทุก 4 วินาที
+      showBatch();
+      setInterval(showBatch, 4000);
+
+      // ข้อความรัก
+      const loveText = document.createElement("div");
+      loveText.className = "love-text";
+      loveText.innerText = "❤️ เค้ารักเธอนะ Hong ❤️";
+      popup.appendChild(loveText);
+
+      document.body.appendChild(popup);
+
+      // Hearts floating
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }, 500);
+
+      // Play music
+      document.getElementById("bg-music").play();
     }
 
-    function moveSlide(step) {
-      showSlide(index + step);
-    }
-
-    // Auto slide every 4s
-    setInterval(() => moveSlide(1), 4000);
-
-    /* Confetti JS */
+    /* Confetti */
     const canvas = document.getElementById("confetti");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const confetti = Array.from({length: 150}).map(() => ({
+    const confetti = Array.from({ length: 150 }).map(() => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 6 + 2,
       dx: Math.random() - 0.5,
       dy: Math.random() * 2 + 1,
-      color: `hsl(${Math.random()*360},100%,50%)`
+      color: `hsl(${Math.random() * 360},100%,50%)`
     }));
 
     function draw() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       confetti.forEach(c => {
         ctx.beginPath();
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI*2);
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
         ctx.fillStyle = c.color;
         ctx.fill();
         c.x += c.dx;
@@ -189,4 +322,5 @@
     draw();
   </script>
 </body>
+
 </html>
