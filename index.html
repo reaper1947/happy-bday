@@ -17,19 +17,14 @@
     }
     .card {
       background: white;
-      padding: 40px;
+      padding: 20px;
       border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      max-width: 500px;
+      max-width: 600px;
       animation: fadeIn 2s ease;
     }
-    .card img {
-      width: 100%;
-      border-radius: 15px;
-      margin-bottom: 20px;
-    }
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       color: #ff4e50;
     }
     p {
@@ -61,20 +56,112 @@
       pointer-events: none;
       z-index: -1;
     }
+
+    /* 🔹 Carousel */
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-height: 350px;
+      overflow: hidden;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+      width: 100%;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .slide img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+    .caption {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      font-size: 2rem;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
   </style>
 </head>
 <body>
   <div class="card">
-    <!-- 🔹 เปลี่ยน path รูปเป็นไฟล์จริงของคุณ -->
-    <img src="img/myphoto.jpg" alt="Happy Photo">
+    <!-- 🔹 Image Carousel -->
+    <div class="carousel">
+      <div class="slides" id="slides">
+        <div class="slide">
+          <img src="img/photo1.jpg" alt="Photo 1">
+          <div class="caption">📸 วันดีๆ ที่เรายิ้มด้วยกัน</div>
+        </div>
+        <div class="slide">
+          <img src="img/photo2.jpg" alt="Photo 2">
+          <div class="caption">🌟 ความทรงจำที่พิเศษสุด</div>
+        </div>
+        <div class="slide">
+          <img src="img/photo3.jpg" alt="Photo 3">
+          <div class="caption">💖 อยากให้วันนี้มีแต่ความสุข</div>
+        </div>
+      </div>
+      <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
+      <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
+    </div>
+
     <h1>🎉 Happy Birthday [Name]! 🎉</h1>
     <p>ขอให้มีความสุขมากๆ ในทุกวัน<br>และขอให้ปีนี้เต็มไปด้วยสิ่งดีๆ ❤️</p>
     <button class="btn" onclick="alert('คุณคือของขวัญที่ดีที่สุด 😊')">Click Me 🎁</button>
   </div>
 
-  <!-- Confetti Effect -->
+  <!-- 🔹 Confetti Effect -->
   <canvas id="confetti"></canvas>
+
+  <!-- 🔹 Background Music -->
+  <audio id="bg-music" autoplay loop>
+    <source src="music/happy-birthday.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
   <script>
+    /* Carousel JS */
+    let index = 0;
+    const slides = document.getElementById("slides");
+    const total = slides.children.length;
+
+    function showSlide(i) {
+      index = (i + total) % total;
+      slides.style.transform = `translateX(${-index * 100}%)`;
+    }
+
+    function moveSlide(step) {
+      showSlide(index + step);
+    }
+
+    // Auto slide every 4s
+    setInterval(() => moveSlide(1), 4000);
+
+    /* Confetti JS */
     const canvas = document.getElementById("confetti");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
@@ -103,6 +190,12 @@
       requestAnimationFrame(draw);
     }
     draw();
+
+    /* Fix autoplay on some browsers (needs user interaction) */
+    const music = document.getElementById("bg-music");
+    document.body.addEventListener("click", () => {
+      if (music.paused) music.play();
+    });
   </script>
 </body>
 </html>
